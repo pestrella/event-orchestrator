@@ -16,6 +16,10 @@ public class TradeEvent implements Event {
         return id;
     }
 
+    public String getParentId() {
+        return null;
+    }
+
     public double getNotional() {
         return notional;
     }

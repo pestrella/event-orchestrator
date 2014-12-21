@@ -4,4 +4,5 @@ package com.thisisnoble.javatest;
 public interface Event {
 
     String getId();
+    String getParentId();
 }
