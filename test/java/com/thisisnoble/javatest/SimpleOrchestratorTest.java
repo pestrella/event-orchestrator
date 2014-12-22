@@ -25,7 +25,7 @@ public class SimpleOrchestratorTest {
         orchestrator.receive(te);
         safeSleep(100);
         CompositeEvent ce = (CompositeEvent) testPublisher.getLastEvent();
-        assertEquals(te, ce.getParent());
+        assertEquals(te, ce.getEvent());
         assertEquals(5, ce.size());
         RiskEvent re1 = ce.getChildById("tradeEvt-riskEvt");
         assertNotNull(re1);
@@ -54,14 +54,14 @@ public class SimpleOrchestratorTest {
         orchestrator.receive(se);
         safeSleep(100);
         CompositeEvent ce = (CompositeEvent) testPublisher.getLastEvent();
-        assertEquals(se, ce.getParent());
+        assertEquals(se, ce.getEvent());
         assertEquals(2, ce.size());
         RiskEvent re2 = ce.getChildById("ship2-riskEvt");
         assertNotNull(re2);
-        assertEquals(50.0, re2.getRiskValue(), 0.01);
+        assertEquals(25.0, re2.getRiskValue(), 0.01);
         MarginEvent me2 = ce.getChildById("ship2-marginEvt");
         assertNotNull(me2);
-        assertEquals(10.0, me2.getMargin(), 0.01);
+        assertEquals(5.0, me2.getMargin(), 0.01);
     }
 
     private Orchestrator setupOrchestrator() {

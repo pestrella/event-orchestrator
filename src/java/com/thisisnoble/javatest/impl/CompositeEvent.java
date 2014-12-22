@@ -7,17 +7,27 @@ import java.util.Map;
 
 public class CompositeEvent implements Event {
 
-    private final String id;
+    private final Event event;
     private final Event parent;
     private final Map<String, Event> children = new HashMap<>();
 
-    public CompositeEvent(String id, Event parent) {
-        this.id = id;
+    public CompositeEvent(Event event, Event parent) {
+        this.event = event;
         this.parent = parent;
     }
 
+    @Override
     public String getId() {
-        return id;
+        return event.getId();
+    }
+
+    @Override
+    public String getParentId() {
+        return parent.getId();
+    }
+
+    public Event getEvent() {
+      return event;
     }
 
     public Event getParent() {
