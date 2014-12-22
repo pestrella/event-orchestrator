@@ -7,13 +7,6 @@
 (def publisher (atom nil))
 (def events (atom {}))
 
-(defn debug [event]
-  (println (str "Recieved event: ("
-                (.getId event)
-                (when-let [parent-id (.getParentId event)]
-                  (str "[" parent-id "]"))
-                ")")))
-
 (defn get-root [events event]
   (loop [parent (events (.getParentId event))
          event nil]
@@ -32,20 +25,23 @@
       (.getId event)
       (CompositeEvent. event parent))))
 
+(defn process [processor event]
+  (when (.interestedIn processor event)
+    (.process processor event)))
+
 (def orchestrator
   (reify Orchestrator
+    (setup [this pub]
+      (reset! publisher pub))
     (register [this processor]
       (swap! processors conj processor))
     (receive [this event]
       (do
-        (debug event)
         (swap! events collate event)
         (.publish @publisher (get-root @events event))
-        (doseq [processor @processors]
-          (when (.interestedIn processor event)
-            (.process processor event)))))
-    (setup [this pub]
-      (reset! publisher pub))))
+        (let [agents (doall (map #(agent %) @processors))]
+          (doseq [agent agents]
+            (send-off agent process event)))))))
 
 (import '[com.thisisnoble.javatest SimpleOrchestratorTest])
 (doto (SimpleOrchestratorTest. )
