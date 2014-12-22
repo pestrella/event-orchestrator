@@ -1,14 +1,10 @@
 # Event Orchestrator
 
-A Clojure library designed to ... well, that part is up to you.
+Code that demonstrates some Clojure concurrency features, as well as basic
+Java/Clojure interoperability. The interesting bits are in `orchestrator.clj`.
 
 ## Usage
 
-FIXME
+Using Leiningen, run the tests like so:
 
-## License
-
-Copyright © 2014 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+    lein test
