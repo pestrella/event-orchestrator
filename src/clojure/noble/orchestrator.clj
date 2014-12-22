@@ -42,11 +42,3 @@
         (let [agents (doall (map #(agent %) @processors))]
           (doseq [agent agents]
             (send-off agent process event)))))))
-
-(import '[com.thisisnoble.javatest SimpleOrchestratorTest])
-(doto (SimpleOrchestratorTest. )
-  (.setOrchestrator orchestrator)
-  (.tradeEventShouldTriggerAllProcessors))
-(doto (SimpleOrchestratorTest. )
-  (.setOrchestrator orchestrator)
-  (.shippingEventShouldTriggerOnly2Processors))
